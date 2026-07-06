@@ -13,18 +13,19 @@ function getTimeLeft() {
 }
 
 export function Footer() {
-  const [time, setTime] = useState(getTimeLeft);
+  const [time, setTime] = useState<ReturnType<typeof getTimeLeft> | null>(null);
 
   useEffect(() => {
+    setTime(getTimeLeft());
     const id = setInterval(() => setTime(getTimeLeft()), 1000);
     return () => clearInterval(id);
   }, []);
 
   const units = [
-    { label: "Days", value: time.days },
-    { label: "Hours", value: time.hours },
-    { label: "Minutes", value: time.minutes },
-    { label: "Seconds", value: time.seconds },
+    { label: "Days", value: time?.days },
+    { label: "Hours", value: time?.hours },
+    { label: "Minutes", value: time?.minutes },
+    { label: "Seconds", value: time?.seconds },
   ];
 
   return (
@@ -38,7 +39,7 @@ export function Footer() {
           {units.map((u) => (
             <div key={u.label} className="flex flex-col items-center">
               <span className="font-display text-3xl tabular-nums sm:text-5xl">
-                {String(u.value).padStart(2, "0")}
+                {u.value === undefined ? "--" : String(u.value).padStart(2, "0")}
               </span>
               <span className="mt-2 text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:text-xs">
                 {u.label}
