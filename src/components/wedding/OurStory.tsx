@@ -46,10 +46,6 @@ export function OurStory() {
               retriever later, {COUPLE.partner2} proposed at the same café table where it
               all began — cappuccino intentionally spilled.
             </p>
-            <p className="font-display text-lg italic text-foreground">
-              “Now we begin the sweetest chapter yet — and we cannot imagine celebrating
-              it without you.”
-            </p>
           </div>
         </motion.div>
       </div>
