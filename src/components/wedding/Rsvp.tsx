@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 
 const inputClass =
-  "w-full border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-ring focus:ring-1 focus:ring-ring";
+  "w-full border border-neutral-200 bg-transparent px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/40";
 
 const labelClass =
-  "mb-2 block text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground";
+  "mb-2 block text-xs font-semibold uppercase tracking-[0.3em] text-[#C5A880]";
 
 export function Rsvp() {
   const [attending, setAttending] = useState<"yes" | "no">("yes");
@@ -66,6 +66,7 @@ export function Rsvp() {
                 }}
                 className="space-y-7"
               >
+                {/* Full Name */}
                 <div>
                   <label htmlFor="rsvp-name" className={labelClass}>
                     Full Name
@@ -78,26 +79,28 @@ export function Rsvp() {
                   />
                 </div>
 
+                {/* Attendance toggle */}
                 <div>
                   <span className={labelClass}>Will you attend?</span>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="flex gap-3">
                     {(["yes", "no"] as const).map((v) => (
                       <button
                         key={v}
                         type="button"
                         onClick={() => setAttending(v)}
-                        className={`border px-4 py-3 text-xs font-semibold uppercase tracking-[0.25em] transition-all duration-300 ${
+                        className={`flex-1 border px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 ${
                           attending === v
                             ? "border-primary bg-primary text-primary-foreground"
-                            : "border-input bg-background text-muted-foreground hover:border-ring"
+                            : "border-neutral-200 bg-transparent text-muted-foreground hover:border-[#C5A880] hover:text-[#C5A880]"
                         }`}
                       >
-                        {v === "yes" ? "Joyfully accept" : "Regretfully decline"}
+                        {v === "yes" ? "Joyfully Accept" : "Regretfully Decline"}
                       </button>
                     ))}
                   </div>
                 </div>
 
+                {/* Number of Guests */}
                 <div>
                   <label htmlFor="rsvp-guests" className={labelClass}>
                     Number of Guests
@@ -112,6 +115,31 @@ export function Rsvp() {
                   />
                 </div>
 
+                {/* Dietary Restrictions */}
+                <div>
+                  <label htmlFor="rsvp-dietary" className={labelClass}>
+                    Dietary Restrictions <span className="normal-case tracking-normal text-muted-foreground/60">(Optional)</span>
+                  </label>
+                  <input
+                    id="rsvp-dietary"
+                    placeholder="e.g. vegetarian, gluten-free, nut allergy…"
+                    className={inputClass}
+                  />
+                </div>
+
+                {/* Song Request */}
+                <div>
+                  <label htmlFor="rsvp-song" className={labelClass}>
+                    Song to Get You on the Dance Floor
+                  </label>
+                  <input
+                    id="rsvp-song"
+                    placeholder="Artist – Song title"
+                    className={inputClass}
+                  />
+                </div>
+
+                {/* Submit */}
                 <button
                   type="submit"
                   className="w-full bg-primary px-8 py-4 text-xs font-semibold uppercase tracking-[0.35em] text-primary-foreground transition-all duration-300 hover:opacity-90 hover:shadow-soft"

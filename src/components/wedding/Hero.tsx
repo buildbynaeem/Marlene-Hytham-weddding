@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 import hero from "@/assets/hero.jpg";
-import { COUPLE, WEDDING_DATE_LABEL, WEDDING_LOCATION } from "@/lib/wedding";
+import { COUPLE, WEDDING_DATE_LABEL } from "@/lib/wedding";
 
 function Petals() {
   const petals = useMemo(
@@ -51,6 +51,23 @@ function Petals() {
 export function Hero() {
   return (
     <section id="top" className="relative flex min-h-screen items-center justify-center overflow-hidden">
+      {/* Top-left logo — anchored to hero only */}
+      <div
+        className="absolute top-5 left-6 z-20 flex items-center gap-1.5 select-none pointer-events-none"
+        style={{
+          fontFamily: "var(--font-serif)",
+          fontSize: "1.5rem",
+          letterSpacing: "0.08em",
+          color: "var(--primary-foreground)",
+          textShadow: "0 1px 8px rgba(0,0,0,0.3)",
+        }}
+        aria-label="I and J logo"
+      >
+        I
+        <span style={{ color: "var(--gold-soft)", fontStyle: "italic" }}>&amp;</span>
+        J
+      </div>
+
       <img
         src={hero}
         alt={`${COUPLE.partner1} and ${COUPLE.partner2} in a garden at golden hour`}
@@ -75,11 +92,11 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.6 }}
-          className="font-display mt-6 text-5xl leading-tight sm:text-7xl md:text-8xl"
+          className="font-display mt-6 flex flex-col items-center leading-tight text-5xl sm:text-7xl md:text-8xl"
         >
-          {COUPLE.partner1}
-          <span className="mx-3 italic text-gold-soft sm:mx-5">&</span>
-          {COUPLE.partner2}
+          <span>{COUPLE.partner1}</span>
+          <span className="italic text-gold-soft text-4xl sm:text-5xl md:text-6xl my-1">&amp;</span>
+          <span>{COUPLE.partner2}</span>
         </motion.h1>
 
         <motion.div
@@ -92,9 +109,7 @@ export function Hero() {
           <p className="font-display mt-3 text-lg italic tracking-wide sm:text-2xl">
             {WEDDING_DATE_LABEL}
           </p>
-          <p className="text-xs uppercase tracking-[0.3em] text-primary-foreground/80 sm:text-sm">
-            {WEDDING_LOCATION}
-          </p>
+
         </motion.div>
 
         <motion.div
