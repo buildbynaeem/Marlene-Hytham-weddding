@@ -5,9 +5,9 @@ const events = [
   {
     icon: Church,
     title: "The Ceremony",
-    time: "4:00 PM",
+    time: "3:30 PM",
     place: "The Rose Garden, Rosewood Estate",
-    note: "Please arrive by 3:30 PM to be seated. Ceremony held outdoors among the roses.",
+    note: "Please arrive by 3:15 PM to be seated. Ceremony held outdoors among the roses.",
   },
   {
     icon: GlassWater,

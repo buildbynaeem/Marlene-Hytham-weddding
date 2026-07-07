@@ -105,7 +105,7 @@ export function Hero() {
         >
           <a
             href="#rsvp"
-            className="inline-block border border-gold-soft/70 bg-background/10 px-10 py-4 text-xs font-semibold uppercase tracking-[0.35em] text-primary-foreground backdrop-blur-sm transition-all duration-300 hover:bg-background hover:text-foreground hover:shadow-soft"
+            className="inline-block border border-white/40 bg-white/20 px-10 py-4 text-xs font-semibold uppercase tracking-[0.35em] text-white shadow-soft backdrop-blur-xl transition-all duration-300 hover:bg-white/90 hover:text-foreground"
           >
             RSVP Now
           </a>

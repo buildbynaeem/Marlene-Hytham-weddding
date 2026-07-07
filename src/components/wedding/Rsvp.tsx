@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Music } from "lucide-react";
+import { Heart } from "lucide-react";
 
 const inputClass =
   "w-full border border-input bg-background px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-ring focus:ring-1 focus:ring-ring";
@@ -98,41 +98,16 @@ export function Rsvp() {
                   </div>
                 </div>
 
-                <div className="grid gap-7 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="rsvp-guests" className={labelClass}>
-                      Number of Guests
-                    </label>
-                    <input
-                      id="rsvp-guests"
-                      type="number"
-                      min={1}
-                      max={5}
-                      defaultValue={1}
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="rsvp-diet" className={labelClass}>
-                      Dietary Restrictions
-                    </label>
-                    <input
-                      id="rsvp-diet"
-                      placeholder="Vegetarian, allergies…"
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
                 <div>
-                  <label htmlFor="rsvp-song" className={labelClass}>
-                    <span className="inline-flex items-center gap-2">
-                      <Music size={12} className="text-gold" /> Song Request
-                    </span>
+                  <label htmlFor="rsvp-guests" className={labelClass}>
+                    Number of Guests
                   </label>
                   <input
-                    id="rsvp-song"
-                    placeholder="A song that will get you dancing"
+                    id="rsvp-guests"
+                    type="number"
+                    min={1}
+                    max={5}
+                    defaultValue={1}
                     className={inputClass}
                   />
                 </div>
