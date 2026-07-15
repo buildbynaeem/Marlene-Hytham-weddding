@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/")({
   component: Splash,
@@ -43,18 +44,24 @@ function Splash() {
       <video
         ref={videoRef}
         src="/1.webm"
+        poster="/envelope-poster.webp"
         className="w-full h-full object-cover"
         muted
         playsInline
+        preload="auto"
       />
       {!hasStarted && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-white text-center">
-    
-            <div className="text-sm opacity-70 uppercase tracking-widest">
-  
+          <motion.div
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="text-white text-center"
+          >
+            <div className="text-sm opacity-90 uppercase tracking-widest">
+              Tap to Open
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
     </div>
