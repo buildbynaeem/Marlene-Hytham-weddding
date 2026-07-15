@@ -11,9 +11,14 @@ export function Footer() {
         M <span className="font-serif italic text-[#B38B59] font-light text-4xl mx-2">&amp;</span> H
       </p>
 
-      <p className="mt-16 text-[10px] uppercase tracking-widest text-[#6B2D31]/30 hover:text-[#6B2D31]/60 transition-colors">
-        Digital Experience by Zylo Invites 
-      </p>
+      <a
+        href="https://www.instagram.com/zylo.invites/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-16 text-[10px] uppercase tracking-widest text-[#6B2D31]/30 hover:text-[#6B2D31]/60 transition-colors"
+      >
+        Digital Experience by Zylo
+      </a>
     </section>
   );
 }
