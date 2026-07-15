@@ -107,15 +107,14 @@ export function AudioPlayer() {
 
       <motion.button
         id="floating-music-btn"
-        onClick={toggleAudio}
-        onTouchStart={toggleAudio}
+        onPointerUp={toggleAudio}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.92 }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 2, ease: "easeOut" }}
         aria-label={isPlaying ? "Pause background music" : "Play background music"}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white outline-none focus:outline-none focus:ring-0 select-none"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white outline-none focus:outline-none focus:ring-0 select-none touch-manipulation"
         style={{
           boxShadow: "0 8px 30px rgb(0,0,0,0.08)",
           border: "none",
@@ -147,7 +146,7 @@ export function AudioPlayer() {
               ? { duration: 1.6, repeat: Infinity, ease: "easeInOut" }
               : { duration: 0.3 }
           }
-          className="relative z-10 flex items-center justify-center"
+          className="relative z-10 flex items-center justify-center pointer-events-none"
         >
           <MusicNoteIcon playing={isPlaying} />
         </motion.span>
