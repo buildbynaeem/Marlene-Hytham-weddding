@@ -60,11 +60,11 @@ export function Hero() {
           color: "var(--primary-foreground)",
           textShadow: "0 1px 8px rgba(0,0,0,0.3)",
         }}
-        aria-label="I and J logo"
+        aria-label="M and H logo"
       >
-        I
+        M
         <span style={{ color: "var(--gold-soft)", fontStyle: "italic" }}>&amp;</span>
-        J
+        H
       </div>
 
       <video

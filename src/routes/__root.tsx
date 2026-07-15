@@ -77,18 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Isabella & James — September 12, 2026" },
+      { title: "Marlene & Hytham — August 8, 2026" },
       {
         name: "description",
         content:
-          "Join Isabella & James as they say I do. Ceremony, reception and celebration details, our story, and RSVP — September 12, 2026, Rosewood Estate, Napa Valley.",
+          "You're invited to celebrate with us. Discover the details and save the date for our wedding at Jardin Des Lys, Lebanon.",
       },
-      { name: "author", content: "Isabella & James" },
-      { property: "og:title", content: "Isabella & James — September 12, 2026" },
+      { name: "author", content: "Marlene & Hytham" },
+      { property: "og:title", content: "Marlene & Hytham — August 8, 2026" },
       {
         property: "og:description",
         content:
-          "You're invited to celebrate with us. Discover the details and RSVP to our wedding at Rosewood Estate, Napa Valley.",
+          "You're invited to celebrate with us. Discover the details and save the date for our wedding at Jardin Des Lys, Lebanon.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
