@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { WEDDING_DATE } from "@/lib/wedding";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface TimeLeft {
   days: number;
@@ -9,8 +8,11 @@ interface TimeLeft {
   seconds: number;
 }
 
+// Target: August 8, 2026 at 00:00:00 local time
+const WEDDING_TARGET = new Date("2026-08-08T00:00:00");
+
 function getTimeLeft(): TimeLeft {
-  const diff = WEDDING_DATE.getTime() - Date.now();
+  const diff = WEDDING_TARGET.getTime() - Date.now();
   if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -20,25 +22,42 @@ function getTimeLeft(): TimeLeft {
   };
 }
 
-const units: { key: keyof TimeLeft; label: string }[] = [
-  { key: "days", label: "Days" },
-  { key: "hours", label: "Hours" },
+const UNITS: { key: keyof TimeLeft; label: string }[] = [
+  { key: "days",    label: "Days"    },
+  { key: "hours",   label: "Hours"   },
   { key: "minutes", label: "Minutes" },
   { key: "seconds", label: "Seconds" },
 ];
 
-function Digit({ value }: { value: number }) {
+/** Animated number cell — flips on every change */
+function CountCell({ value, label }: { value: number; label: string }) {
   const display = String(value).padStart(2, "0");
   return (
-    <motion.span
-      key={display}
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className="font-display block text-6xl sm:text-7xl md:text-8xl leading-none tracking-tight text-foreground"
-    >
-      {value}
-    </motion.span>
+    <div className="flex flex-col items-center">
+      {/* Number */}
+      <div className="relative overflow-hidden h-[4.5rem] sm:h-[6rem] md:h-[7.5rem] flex items-center justify-center">
+        <AnimatePresence mode="popLayout">
+          <motion.span
+            key={display}
+            initial={{ y: "40%", opacity: 0 }}
+            animate={{ y: "0%", opacity: 1 }}
+            exit={{ y: "-40%", opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="block font-serif text-6xl sm:text-7xl md:text-8xl leading-none tracking-tight select-none"
+            style={{ color: "#6B2D31" }}
+          >
+            {display}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+      {/* Label */}
+      <span
+        className="mt-5 text-[0.58rem] font-sans font-semibold uppercase tracking-[0.35em]"
+        style={{ color: "rgba(107,45,49,0.55)" }}
+      >
+        {label}
+      </span>
+    </div>
   );
 }
 
@@ -52,62 +71,45 @@ export function Countdown() {
 
   return (
     <section
-      style={{ backgroundColor: "#FDFCF0" }}
-      className="relative overflow-hidden py-20 sm:py-24"
+      className="relative pt-24 pb-28"
+      style={{ backgroundColor: "#E3E8E3" }}
     >
-      {/* Top-left floral decoration */}
-      <img
-        src="/left-flower.png"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-4 -left-4 w-52 sm:w-64 md:w-72 select-none"
-      />
+      <div className="mx-auto max-w-4xl px-6">
 
-      {/* Top-right floral decoration */}
-      <img
-        src="/right-flower.png"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-4 -right-4 w-52 sm:w-64 md:w-72 select-none"
-      />
-
-      <div className="mx-auto max-w-5xl px-6">
-        {/* Label */}
+        {/* Overline */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7 }}
-          className="text-center text-[0.65rem] font-semibold uppercase tracking-[0.45em] text-gold"
+          className="text-center text-[0.62rem] font-sans font-semibold uppercase tracking-[0.3em]"
+          style={{ color: "rgba(107,45,49,0.80)" }}
         >
           Counting Down to Forever
         </motion.p>
 
-        {/* Numbers */}
+        {/* Countdown grid */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="mt-10 flex items-start justify-center gap-8 sm:gap-14 md:gap-20"
+          className="mt-10 grid grid-cols-4 items-start justify-items-center gap-2 sm:gap-8"
         >
-          {units.map(({ key, label }) => (
-            <div key={key} className="flex flex-col items-center gap-3">
-              <Digit value={time[key]} />
-              <span className="text-[0.6rem] font-semibold uppercase tracking-[0.35em] text-muted-foreground">
-                {label}
-              </span>
-            </div>
+          {UNITS.map(({ key, label }) => (
+            <CountCell key={key} value={time[key]} label={label} />
           ))}
         </motion.div>
 
-        {/* Gold divider */}
+        {/* Separator dots between numbers (decorative) */}
+        {/* Divider */}
         <motion.div
           initial={{ scaleX: 0, opacity: 0 }}
           whileInView={{ scaleX: 1, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mx-auto mt-12 h-px w-16 origin-center bg-gold/50"
+          transition={{ duration: 0.9, delay: 0.4 }}
+          className="mx-auto mt-20 h-[1px] w-16 origin-center"
+          style={{ backgroundColor: "rgba(107,45,49,0.30)" }}
         />
       </div>
     </section>

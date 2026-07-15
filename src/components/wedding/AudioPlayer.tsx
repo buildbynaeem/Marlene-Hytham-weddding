@@ -1,109 +1,135 @@
 import { useRef, useState } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-/**
- * FloatingAudioPlayer — frosted glass, champagne-gold finish.
- * Replace TRACK_URL with your own wedding song.
- */
 const TRACK_URL =
   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // ← swap with your track
 
-const GOLD = "#C5A880";
+const BURGUNDY = "#6B2D31";
 
-/** Thin-stroke modern music note SVG */
-function MusicIcon() {
+/** Delicate Burgundy music note SVG */
+function MusicNoteIcon({ playing }: { playing: boolean }) {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
-        d="M9 18V5.5L21 3.5V16"
-        stroke={GOLD}
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="6"  cy="18" r="2.5" stroke={GOLD} strokeWidth="1.4" />
-      <circle cx="18" cy="16" r="2.5" stroke={GOLD} strokeWidth="1.4" />
+      {playing ? (
+        /* Pause icon when playing */
+        <>
+          <rect x="6" y="5" width="3.5" height="14" rx="1" fill={BURGUNDY} />
+          <rect x="14.5" y="5" width="3.5" height="14" rx="1" fill={BURGUNDY} />
+        </>
+      ) : (
+        /* Music note when paused */
+        <>
+          <path
+            d="M9 18V6.5L21 4V16"
+            stroke={BURGUNDY}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="6.5" cy="18" r="2.5" stroke={BURGUNDY} strokeWidth="1.5" />
+          <circle cx="18.5" cy="16" r="2.5" stroke={BURGUNDY} strokeWidth="1.5" />
+        </>
+      )}
     </svg>
+  );
+}
+
+/** Subtle sound-wave ripple ring shown while playing */
+function Ripple() {
+  return (
+    <span
+      className="pointer-events-none absolute inset-0 rounded-full"
+      style={{
+        animation: "ripple 1.8s ease-out infinite",
+        border: `1.5px solid rgba(107,45,49,0.35)`,
+      }}
+    />
   );
 }
 
 export function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const controls = useAnimationControls();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const toggle = async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (playing) {
+    if (isPlaying) {
       audio.pause();
-      controls.stop();
-      setPlaying(false);
+      setIsPlaying(false);
     } else {
-      await audio.play();
-      controls.start({
-        rotate: 360,
-        transition: {
-          duration: 6,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-        },
-      });
-      setPlaying(true);
+      try {
+        await audio.play();
+        setIsPlaying(true);
+      } catch {
+        console.warn("Audio playback blocked by browser policy.");
+      }
     }
   };
 
   return (
     <>
+      {/* Ripple keyframe */}
+      <style>{`
+        @keyframes ripple {
+          0%   { transform: scale(1);   opacity: 0.6; }
+          100% { transform: scale(1.9); opacity: 0;   }
+        }
+      `}</style>
+
       <audio ref={audioRef} src={TRACK_URL} loop preload="none" />
 
       <motion.button
+        id="floating-music-btn"
         onClick={toggle}
         whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.94 }}
+        whileTap={{ scale: 0.92 }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 2, ease: "easeOut" }}
-        aria-label={playing ? "Pause background music" : "Play background music"}
+        aria-label={isPlaying ? "Pause background music" : "Play background music"}
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white"
         style={{
-          position: "fixed",
-          bottom: "1.5rem",
-          right: "1.5rem",
-          zIndex: 50,
-          width: "3.1rem",
-          height: "3.1rem",
-          borderRadius: "9999px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
+          boxShadow: "0 8px 30px rgb(0,0,0,0.08)",
           outline: "none",
-          border: "1px solid rgba(255,255,255,0.4)",
-          background: "rgba(255,255,255,0.3)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.04)",
-          transition: "box-shadow 0.3s ease",
+          border: "none",
+          cursor: "pointer",
+          position: "fixed",   // explicit to avoid Framer overriding
         }}
       >
+        {/* Ripple ring while playing */}
+        <AnimatePresence>
+          {isPlaying && (
+            <motion.span
+              key="ripple"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="pointer-events-none absolute inset-0 rounded-full"
+            >
+              <Ripple />
+            </motion.span>
+          )}
+        </AnimatePresence>
+
+        {/* Icon */}
         <motion.span
-          animate={controls}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transformOrigin: "center",
-          }}
+          animate={isPlaying ? { rotate: [0, 8, -8, 0] } : { rotate: 0 }}
+          transition={
+            isPlaying
+              ? { duration: 1.6, repeat: Infinity, ease: "easeInOut" }
+              : { duration: 0.3 }
+          }
+          className="relative z-10 flex items-center justify-center"
         >
-          <MusicIcon />
+          <MusicNoteIcon playing={isPlaying} />
         </motion.span>
       </motion.button>
     </>

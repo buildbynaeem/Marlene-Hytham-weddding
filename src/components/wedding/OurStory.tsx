@@ -5,6 +5,7 @@ import { COUPLE } from "@/lib/wedding";
 export function OurStory() {
   return (
     <section id="story" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-24 sm:py-32">
+      <div className="overflow-hidden">
       <div className="grid items-center gap-12 md:grid-cols-2 md:gap-20">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -48,6 +49,7 @@ export function OurStory() {
             </p>
           </div>
         </motion.div>
+      </div>
       </div>
     </section>
   );

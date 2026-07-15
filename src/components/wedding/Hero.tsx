@@ -134,6 +134,14 @@ export function Hero() {
       >
         <div className="h-10 w-px bg-gradient-to-b from-transparent via-primary-foreground/60 to-transparent" />
       </motion.div>
+      {/* Bottom-to-Countdown gradient fade */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-40"
+        style={{
+          background: "linear-gradient(to bottom, transparent, #E3E8E3)",
+        }}
+        aria-hidden
+      />
     </section>
   );
 }
