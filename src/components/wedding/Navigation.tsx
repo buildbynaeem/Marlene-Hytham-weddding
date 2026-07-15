@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { COUPLE } from "@/lib/wedding";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 const links = [
   { href: "#story", label: "Our Story" },
@@ -12,18 +13,21 @@ const links = [
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const isMounted = useIsMounted();
 
   useEffect(() => {
+    if (!isMounted) return;
+
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isMounted]);
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open
+        (isMounted && (scrolled || open))
           ? "bg-background/90 shadow-card backdrop-blur-md"
           : "bg-transparent"
       }`}
@@ -32,7 +36,7 @@ export function Navigation() {
         <a
           href="#top"
           className={`font-display text-lg tracking-[0.2em] transition-colors sm:text-xl ${
-            scrolled || open ? "text-foreground" : "text-primary-foreground"
+            (isMounted && (scrolled || open)) ? "text-foreground" : "text-primary-foreground"
           }`}
         >
           {COUPLE.partner1[0]} <span className="text-gold">&</span> {COUPLE.partner2[0]}
@@ -44,7 +48,7 @@ export function Navigation() {
               key={l.href}
               href={l.href}
               className={`text-xs font-medium uppercase tracking-[0.25em] transition-colors hover:text-gold ${
-                scrolled ? "text-muted-foreground" : "text-primary-foreground/90"
+                (isMounted && scrolled) ? "text-muted-foreground" : "text-primary-foreground/90"
               }`}
             >
               {l.label}
@@ -53,7 +57,7 @@ export function Navigation() {
         </div>
 
         <button
-          className={`md:hidden ${scrolled || open ? "text-foreground" : "text-primary-foreground"}`}
+          className={`md:hidden ${(isMounted && (scrolled || open)) ? "text-foreground" : "text-primary-foreground"}`}
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
         >

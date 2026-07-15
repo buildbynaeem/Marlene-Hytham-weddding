@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 const TRACK_URL =
   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // ← swap with your track
@@ -56,14 +57,19 @@ function Ripple() {
 export function AudioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const isMounted = useIsMounted();
 
   const toggle = async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
+      try {
+        audio.pause();
+        setIsPlaying(false);
+      } catch {
+        console.warn("Audio pause failed.");
+      }
     } else {
       try {
         await audio.play();
@@ -73,6 +79,10 @@ export function AudioPlayer() {
       }
     }
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <>
@@ -89,6 +99,7 @@ export function AudioPlayer() {
       <motion.button
         id="floating-music-btn"
         onClick={toggle}
+        onTouchStart={toggle}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.92 }}
         initial={{ opacity: 0, y: 20 }}

@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef, useState, useEffect, forwardRef } from "react";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 const EVENTS = [
   { time: "5:00 PM", event: "Welcome Drinks" },
@@ -17,6 +18,7 @@ export function Schedule() {
   const [timelineHeight, setTimelineHeight] = useState(0);
   const [lineTop, setLineTop] = useState(0);
   const [lineBottom, setLineBottom] = useState(0);
+  const isMounted = useIsMounted();
   
   const { scrollYProgress } = useScroll({
     target: eventsContainerRef,
@@ -29,6 +31,8 @@ export function Schedule() {
   });
 
   useEffect(() => {
+    if (!isMounted) return;
+
     const updatePositions = () => {
       if (timelineContainerRef.current && firstEventRef.current && lastEventRef.current) {
         const containerRect = timelineContainerRef.current.getBoundingClientRect();
@@ -50,7 +54,7 @@ export function Schedule() {
     updatePositions();
     window.addEventListener("resize", updatePositions);
     return () => window.removeEventListener("resize", updatePositions);
-  }, []);
+  }, [isMounted]);
 
   return (
     <section
