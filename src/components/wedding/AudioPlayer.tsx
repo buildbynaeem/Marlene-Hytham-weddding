@@ -2,8 +2,7 @@ import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMounted } from "@/hooks/use-is-mounted";
 
-const TRACK_URL =
-  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // ← swap with your track
+const TRACK_URL = "/song.mp3";
 
 const BURGUNDY = "#6B2D31";
 

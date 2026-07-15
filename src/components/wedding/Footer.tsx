@@ -12,7 +12,7 @@ export function Footer() {
       </p>
 
       <p className="mt-16 text-[10px] uppercase tracking-widest text-[#6B2D31]/30 hover:text-[#6B2D31]/60 transition-colors">
-        Digital Experience by Zylo
+        Digital Experience by Zylo Invites 
       </p>
     </section>
   );
