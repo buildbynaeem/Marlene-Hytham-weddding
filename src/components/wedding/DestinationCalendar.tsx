@@ -9,8 +9,9 @@ function generateGoogleCalendarUrl() {
   const end = new Date(WEDDING_DATE.getTime() + 24 * 60 * 60 * 1000).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const title = encodeURIComponent("Marlene & Hytham's Wedding");
   const details = encodeURIComponent("Join us to celebrate Marlene & Hytham's wedding!");
+  const location = encodeURIComponent("Jardin Des Lys, Faitroun");
   
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${start}/${end}`;
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${start}/${end}`;
 }
 
 function generateICSFile() {
@@ -32,6 +33,7 @@ function generateICSFile() {
     `DTEND:${end}`,
     "SUMMARY:Marlene & Hytham's Wedding",
     "DESCRIPTION:Join us to celebrate Marlene & Hytham's wedding!",
+    "LOCATION:Jardin Des Lys, Faitroun",
     "END:VEVENT",
     "END:VCALENDAR"
   ].join("\r\n");
@@ -94,7 +96,7 @@ export function DestinationCalendar() {
           className="font-serif text-5xl md:text-7xl"
           style={{ color: "#6B2D31" }}
         >
-          Join us in [City, Country]
+          Join us in Jardin Des Lys, Faitroun
         </motion.h1>
 
         <motion.p
