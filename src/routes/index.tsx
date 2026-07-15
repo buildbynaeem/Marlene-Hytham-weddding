@@ -42,7 +42,7 @@ function Splash() {
     >
       <video
         ref={videoRef}
-        src="/1.mp4"
+        src="/1.webm"
         className="w-full h-full object-cover"
         muted
         playsInline

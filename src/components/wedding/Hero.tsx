@@ -68,7 +68,7 @@ export function Hero() {
       </div>
 
       <video
-        src="/hero.mp4"
+        src="/hero.webm"
         autoPlay
         muted
         loop
