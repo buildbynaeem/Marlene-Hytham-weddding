@@ -15,7 +15,7 @@ export function Footer() {
         href="https://www.instagram.com/zylo.invites/"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-16 text-[10px] uppercase tracking-widest text-[#1a1a1a] hover:text-[#333333] transition-colors"
+        className="mt-16 text-[10px] uppercase tracking-widest text-[#6B2D31]/70 hover:text-[#6B2D31] transition-colors"
       >
         Digital Experience by Zylo Invites
       </a>
